@@ -23,8 +23,7 @@ public abstract class ROOM_DB extends RoomDatabase {
     with a fixed thread pool
     to run database operations
     asynchronously on a background thread
-    in order to observe changes
-    and make the app UI lag free
+    in order make the app UI lag free
      */
     static final ExecutorService dbWriteExecutor=
             Executors.newFixedThreadPool(NO_OF_THREADS);
