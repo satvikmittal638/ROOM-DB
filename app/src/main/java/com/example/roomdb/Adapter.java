@@ -1,24 +1,28 @@
 package com.example.roomdb;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
+import com.example.roomdb.ROOM_Components.EntityNotes;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private final Context context;
     private List<EntityNotes> notesList;
+    AppCompatActivity activity;
+
+
 
     public Adapter(Context context) {
         this.context = context;
@@ -39,8 +43,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         holder.tvNotes.setText(notesObj.getNotes());
 
-//        holder.btnEdit.setOnClickListener(v ->
-//                Toast.makeText(context, notesObj.getNotes(), Toast.LENGTH_SHORT).show());
+        holder.cardV.setOnClickListener(v -> {
+            Intent updateIntent=new Intent(context,AddNotes.class);
+            updateIntent.putExtra("existing_notes",notesObj.getNotes());
+            activity= (AppCompatActivity) context;
+            activity.startActivityForResult(updateIntent,MainActivity.UPDATE_NOTES_REQUEST_CODE);
+        });
     }
 
     @Override
@@ -54,13 +62,21 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+
+
+
+
+
+
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvNotes;
-//        ImageView btnEdit;
+        public TextView tvNotes;
+        public CardView cardV;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNotes=itemView.findViewById(R.id.tv);
-//            btnEdit=itemView.findViewById(R.id.btn_Edit);
+            cardV=itemView.findViewById(R.id.cardV);
+
+
         }
     }
 }

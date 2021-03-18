@@ -1,4 +1,4 @@
-package com.example.roomdb;
+package com.example.roomdb.ROOM_Components;
 
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
@@ -14,11 +14,13 @@ public class EntityNotes {
     private String notes;
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
 
     public EntityNotes(String notes) {
         this.notes = notes;
     }
+
 
     public String getNotes() {
         return notes;

@@ -10,13 +10,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class AddNotes extends AppCompatActivity {
-EditText etNewNotes;
-static String INTENT_NAME="REPLY FROM AddNotes";
+private EditText etNewNotes;
+public static String INTENT_NAME="REPLY FROM AddNotes";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_notes);
         etNewNotes=findViewById(R.id.etNewNotes);
+        etNewNotes.setText(getIntent().getStringExtra("existing_notes"));//for editing of the existing notes
 
     }
 
@@ -34,5 +35,7 @@ static String INTENT_NAME="REPLY FROM AddNotes";
          setResult(RESULT_CANCELED,replyIntent);
 
      finish(); //current activity gets killed and returns to the MainActivity
+
+
     }
 }

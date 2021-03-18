@@ -9,6 +9,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/etNewNotes"/>
+        android:id="@+id/etNewNotes"
+        android:inputType="text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

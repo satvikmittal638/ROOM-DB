@@ -4,26 +4,23 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.roomdb.ROOM_Components.EntityNotes;
+import com.example.roomdb.ROOM_Components.ViewModel;
 
 public class MainActivity extends AppCompatActivity {
 private RecyclerView recyclerView;
 private Adapter adapter;
 private ViewModel notesViewModel;
 
-static int ADD_NOTES_REQUEST_CODE=1;
+public static int ADD_NOTES_REQUEST_CODE=1;
+public static final int UPDATE_NOTES_REQUEST_CODE=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +29,7 @@ static int ADD_NOTES_REQUEST_CODE=1;
 
         recyclerView=findViewById(R.id.recyclerView);
 
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));//spancount is the number of columns
         adapter=new Adapter(this);
         recyclerView.setAdapter(adapter);
@@ -63,12 +60,20 @@ static int ADD_NOTES_REQUEST_CODE=1;
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode==RESULT_OK && requestCode==ADD_NOTES_REQUEST_CODE)
+        if( resultCode==RESULT_OK && (requestCode==ADD_NOTES_REQUEST_CODE || requestCode == UPDATE_NOTES_REQUEST_CODE) )
         {
             EntityNotes notes=new EntityNotes(data.getStringExtra(AddNotes.INTENT_NAME));//id is auto-generated
-            notesViewModel.insert(notes);
-            Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
-        }else
+            if(requestCode == ADD_NOTES_REQUEST_CODE)
+                notesViewModel.insert(notes);
+
+            if(requestCode == UPDATE_NOTES_REQUEST_CODE) {
+                notesViewModel.updateNotes(notes);
+                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+            }
+
+//            Toast.makeText(this, "Saved Successfully "+notes.getNotes(), Toast.LENGTH_SHORT).show();
+        }
+        else
             Toast.makeText(this, "Can't save !", Toast.LENGTH_SHORT).show();
     }
 }

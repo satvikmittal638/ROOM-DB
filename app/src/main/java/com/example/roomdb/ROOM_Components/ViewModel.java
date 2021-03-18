@@ -1,13 +1,15 @@
-package com.example.roomdb;
+package com.example.roomdb.ROOM_Components;
 
 import android.app.Application;
-import android.view.View;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.util.ArrayList;
+import com.example.roomdb.ROOM_Components.EntityNotes;
+import com.example.roomdb.ROOM_Components.Repository;
+
 import java.util.List;
 
 public class ViewModel extends AndroidViewModel {
@@ -30,5 +32,16 @@ public class ViewModel extends AndroidViewModel {
 
     public LiveData<List<EntityNotes>> getNotes(){
         return allNotes;
+    }
+
+    //wrapper
+    public void updateNotes(EntityNotes notes){
+        notesRepo.updateNotes(notes);
+        Log.d("kamra", "updateNotes: updating");
+    }
+
+    //wrapper
+    public void deleteAllNotes(){
+        notesRepo.deleteAllNotes();
     }
 }
